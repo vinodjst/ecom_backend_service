@@ -1,5 +1,6 @@
 package com.shopee.ecom.controller;
 
+import com.shopee.ecom.annotation.AdminOnly;
 import com.shopee.ecom.dto.ProductRequest;
 import com.shopee.ecom.dto.ProductResponse;
 import com.shopee.ecom.service.ProductService;
@@ -11,10 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin("http://localhost:5173")
 public class ProductController {
 
     @Autowired
     ProductService productService;
+    //new ProductService(); when it is created
+    // there is IOC  -- i will create an object  you can use
+
 
     @PostMapping("/add")
     public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest request) {
@@ -30,6 +35,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(productId, productRequest));
     }
 
+    @AdminOnly
     @DeleteMapping("/remove/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable long productId) {
 

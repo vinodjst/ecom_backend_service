@@ -4,6 +4,7 @@ import com.shopee.ecom.annotation.AdminOnly;
 import com.shopee.ecom.dto.ProductRequest;
 import com.shopee.ecom.dto.ProductResponse;
 import com.shopee.ecom.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,10 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
-    //new ProductService(); when it is created
-    // there is IOC  -- i will create an object  you can use
 
 
     @PostMapping("/add")
-    public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> addProduct(@Valid  @RequestBody ProductRequest request) {
 
         ProductResponse productResponse = productService.saveProduct(request);
 

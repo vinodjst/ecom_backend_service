@@ -1,9 +1,11 @@
 package com.shopee.ecom.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "products")
 public class Product {
 
     @Id
@@ -12,7 +14,7 @@ public class Product {
 
     private  String name;
 
-    private  String desc;
+    private  String description;
 
     private  double price;
 
@@ -34,11 +36,11 @@ public class Product {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDesc(String description) {
+        this.description = description;
     }
 
     public double getPrice() {

@@ -1,11 +1,16 @@
 package com.shopee.ecom.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class ProductRequest {
 
+    @NotBlank
     private String productName;
 
     private double productPrice;
 
+    @Size(min = 3,max = 6)
     private String productDesc;
 
 

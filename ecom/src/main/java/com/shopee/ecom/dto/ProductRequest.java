@@ -13,6 +13,8 @@ public class ProductRequest {
     @Size(min = 3,max = 6)
     private String productDesc;
 
+    private long category;
+
 
     public String getProductName() {
         return productName;
@@ -38,12 +40,21 @@ public class ProductRequest {
         this.productDesc = productDesc;
     }
 
+    public long getCategory() {
+        return category;
+    }
+
+    public void setCategory(long category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "ProductRequest{" +
                 "productName='" + productName + '\'' +
                 ", productPrice=" + productPrice +
                 ", productDesc='" + productDesc + '\'' +
+                ", category=" + category +
                 '}';
     }
 }

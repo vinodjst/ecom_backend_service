@@ -5,6 +5,7 @@ import com.shopee.ecom.dto.ProductResponse;
 import com.shopee.ecom.entity.Category;
 import com.shopee.ecom.entity.Product;
 import com.shopee.ecom.exceptions.ProductNotFoundException;
+import com.shopee.ecom.mapper.ProductMapper;
 import com.shopee.ecom.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,21 +21,20 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductMapper productMapper;
+
     public ProductResponse saveProduct(ProductRequest productRequest) {
-        //call  Db//request - entity
-        Product product = new Product();
-        product.setName(productRequest.getProductName());
-        product.setDesc(productRequest.getProductDesc());
-        product.setPrice(productRequest.getProductPrice());
+
+        Product productEntity = productMapper.toEntity(productRequest);
 
         Category category = new Category();
-        category.setId(productRequest.getCategory());
-        product.setCategory(category);
+        category.setId(productRequest.getCategory().getId());
+        productEntity.setCategory(category);
+        Product save = productRepository.save(productEntity);
+        ProductResponse response = productMapper.toResponse(save);
+        return response;
 
-        Product save = productRepository.save(product);
-        System.out.println(save);
-        ProductResponse productResponse = new ProductResponse(save.getId(), save.getName(), save.getPrice(), save.getDesc(),save.getCategory().getId());
-        return productResponse;
     }
 
     public ProductResponse findProduct(Long productId) {
@@ -45,7 +45,7 @@ public class ProductService {
 
         if (productById.isPresent()) {
             Product product = productById.get();
-            ProductResponse productResponse = new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getDesc());
+            ProductResponse productResponse = productMapper.toResponse(product);
             return productResponse;
         }
         return null;
@@ -57,7 +57,7 @@ public class ProductService {
         List<Product> all = productRepository.findAll();
 
         for (Product product : all) {
-            ProductResponse productResponse = new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getDesc());
+            ProductResponse productResponse = productMapper.toResponse(product);
             productResponses.add(productResponse);
         }
         return productResponses;
@@ -74,14 +74,13 @@ public class ProductService {
         if (byId.isEmpty()) {
             throw new ProductNotFoundException(productId);
         }
-
         Product productEntity = byId.get();
         productEntity.setName(productRequest.getProductName());
-        productEntity.setDesc(productRequest.getProductDesc());
+        productEntity.setDescription(productRequest.getProductDesc());
         productEntity.setPrice(productRequest.getProductPrice());
         Product save = productRepository.save(productEntity);
 
-        ProductResponse productResponse = new ProductResponse(save.getId(), save.getName(), save.getPrice(), save.getDesc());
+        ProductResponse productResponse = productMapper.toResponse(save);
         return productResponse;
     }
 

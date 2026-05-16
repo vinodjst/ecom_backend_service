@@ -3,7 +3,13 @@ package com.shopee.ecom.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+@AllArgsConstructor
 public class UserRequestDto {
 
     @NotBlank(message = "Name is required")
@@ -16,7 +22,8 @@ public class UserRequestDto {
     private String phone;
     private String role;
 
-    public String getName() {
+
+    /*public String getName() {
         return name;
     }
 
@@ -54,5 +61,5 @@ public class UserRequestDto {
 
     public void setRole(String role) {
         this.role = role;
-    }
+    }*/
 }
